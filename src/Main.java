@@ -1,22 +1,24 @@
+import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 // Will write to file
 public class Main {
-
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        Frame frame = new Frame("To Do List");
+        // Sets up frame
+        JFrame frame = new JFrame("To Do List");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(300, 400);
         frame.setVisible(true);
 
-        TextField textField = new TextField();
-        textField.setEditable(true);
-        frame.add(textField);
+        // Sets up text area and adds it to frame
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(true);
+        frame.add(textArea);
 
         // file path
         String filePath = "ToDoList.txt";
@@ -24,10 +26,17 @@ public class Main {
         // Printing file
         try (Scanner scanner = new Scanner(new File(filePath))) {
             while (scanner.hasNextLine()) {
-                textField.setText(textField.getText() +  scanner.nextLine());
+                textArea.setText(textArea.getText() +  scanner.nextLine());
             }
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + e.getMessage());
+        }
+        // Writing to file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            String text = textArea.getText();
+            writer.write(text);
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file: " + e.getMessage());
         }
     }
 }
