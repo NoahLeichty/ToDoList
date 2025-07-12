@@ -33,8 +33,7 @@ public class Main {
         }
         // Writing to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            String text = textArea.getText();
-            writer.write(text);
+            writer.write(textArea.getText());
         } catch (IOException e) {
             System.err.println("An error occurred while writing to the file: " + e.getMessage());
         }
