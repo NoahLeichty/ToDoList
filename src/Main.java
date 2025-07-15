@@ -9,6 +9,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
+        // file path
+        String filePath = "ToDoList.txt";
+
         // Sets up frame
         JFrame frame = new JFrame("To Do List");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -20,9 +23,6 @@ public class Main {
         textArea.setEditable(true);
         frame.add(textArea);
 
-        // file path
-        String filePath = "ToDoList.txt";
-
         // Printing file
         try (Scanner scanner = new Scanner(new File(filePath))) {
             while (scanner.hasNextLine()) {
@@ -31,6 +31,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + e.getMessage());
         }
+
         // Writing to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(textArea.getText());
