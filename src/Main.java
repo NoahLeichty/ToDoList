@@ -26,7 +26,7 @@ public class Main {
         // Printing file
         try (Scanner scanner = new Scanner(new File(filePath))) {
             while (scanner.hasNextLine()) {
-                textArea.setText(textArea.getText() +  scanner.nextLine());
+                textArea.setText(scanner.nextLine());
             }
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + e.getMessage());
@@ -34,7 +34,7 @@ public class Main {
 
         // Writing to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(textArea.getText());
+            textArea.write(writer);
         } catch (IOException e) {
             System.err.println("An error occurred while writing to the file: " + e.getMessage());
         }
