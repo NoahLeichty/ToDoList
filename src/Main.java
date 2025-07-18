@@ -24,19 +24,19 @@ public class Main {
         frame.add(textArea);
 
         // Printing file
-        try (Scanner scanner = new Scanner(new File(filePath))) {
-            while (scanner.hasNextLine()) {
-                textArea.setText(scanner.nextLine());
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + e.getMessage());
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            textArea.read(reader, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(textArea, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         // Writing to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             textArea.write(writer);
-        } catch (IOException e) {
-            System.err.println("An error occurred while writing to the file: " + e.getMessage());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error writing file: " + ex.getMessage());
         }
     }
 }
