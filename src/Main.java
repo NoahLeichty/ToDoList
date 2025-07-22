@@ -45,7 +45,7 @@ public class Main {
     private void saveFile() {
         // Writing to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write(textArea.getText());
+            textArea.write(writer);
             System.out.println("Text saved to " + file);
         } catch (IOException ex) {
             System.err.println("Error saving text to file: " + ex.getMessage());
