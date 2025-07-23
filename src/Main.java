@@ -13,9 +13,10 @@ import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 public class Main {
 
     private JTextArea textArea;
-    private String file = "ToDoList.txt";
+    private File file;
 
     public Main() {
+        file = new File("ToDoList.txt");
         // Sets up frame
         JFrame frame = new JFrame("To Do List");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -26,6 +27,17 @@ public class Main {
         JScrollPane scrollPane = new JScrollPane(textArea);
         frame.add(scrollPane);
 
+        printFile();
+
+        // Add a WindowListener to save file when closed
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                WriteToFile();
+            }
+        });
+    }
+    private void printFile(){
         // Printing file
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             textArea.read(reader, null);
@@ -33,19 +45,12 @@ public class Main {
             e.printStackTrace();
             JOptionPane.showMessageDialog(textArea, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        // WindowListener
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                saveFile();
-            }
-        });
     }
-    private void saveFile() {
+    private void WriteToFile() {
         // Writing to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            textArea.write(writer);
+            writer.write(textArea.getText());
+            writer.flush();
             System.out.println("Text saved to " + file);
         } catch (IOException ex) {
             System.err.println("Error saving text to file: " + ex.getMessage());
