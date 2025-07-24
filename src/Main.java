@@ -5,10 +5,9 @@ import java.io.*;
 public class Main extends JFrame{
 
     private final JTextArea textArea;
-    private final File file;
+    private File file;
 
     public Main() {
-        file = new File("ToDoList.txt");
         // Sets up frame
         JFrame frame = new JFrame("To Do List");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -19,7 +18,7 @@ public class Main extends JFrame{
         JScrollPane scrollPane = new JScrollPane(textArea);
         frame.add(scrollPane);
 
-        printFile();
+        printFile("ToDoList.txt");
 
         // Add a WindowListener to save file when closed
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -29,7 +28,8 @@ public class Main extends JFrame{
             }
         });
     }
-    private void printFile(){
+    private void printFile(String filePath){
+        file = new File(filePath);
         // Printing file
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             textArea.read(reader, null);
