@@ -1,19 +1,11 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Scanner;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 // Will write to file
-public class Main {
+public class Main extends JFrame{
 
-    private JTextArea textArea;
-    private File file;
+    private final JTextArea textArea;
+    private final File file;
 
     public Main() {
         file = new File("ToDoList.txt");
@@ -48,13 +40,15 @@ public class Main {
     }
     private void WriteToFile() {
         // Writing to file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write(textArea.getText());
-            writer.flush();
-            System.out.println("Text saved to " + file);
-        } catch (IOException ex) {
-            System.err.println("Error saving text to file: " + ex.getMessage());
-            ex.printStackTrace();
+        if (file != null) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                writer.write(textArea.getText());
+                writer.flush(); // Ensure all buffered data is written
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(textArea, "Error saving file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(textArea, "No file to save.", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }
     public static void main(String[] args) {
