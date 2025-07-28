@@ -18,7 +18,7 @@ public class Main extends JFrame{
         JScrollPane scrollPane = new JScrollPane(textArea);
         frame.add(scrollPane);
 
-        printFile("ToDoList.txt");
+        printFile();
 
         // Add a WindowListener to save file when closed
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -28,8 +28,8 @@ public class Main extends JFrame{
             }
         });
     }
-    private void printFile(String filePath){
-        file = new File(filePath);
+    private void printFile(){
+        file = new File("ToDoList.txt");
         // Printing file
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             textArea.read(reader, null);
@@ -40,15 +40,15 @@ public class Main extends JFrame{
     }
     private void WriteToFile() {
         // Writing to file
-        if (file != null) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-                writer.write(textArea.getText());
-                writer.flush(); // Ensure all buffered data is written
+        if (this.file != null) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.file))) {
+                this.textArea.write(writer);
+                writer.flush();
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(textArea, "Error saving file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this.textArea, "Error saving file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(textArea, "No file to save.", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this.textArea, "No file to save.", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }
     public static void main(String[] args) {
