@@ -8,25 +8,25 @@ public class Main extends JFrame{
     private File file;
 
     public Main() {
-        // Sets up frame
-        JFrame frame = new JFrame("To Do List");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(300, 400);
-        frame.setVisible(true);
-
         textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(textArea);
-        frame.add(scrollPane);
+        add(new JScrollPane(textArea));
 
         printFile();
 
         // Add a WindowListener to save file when closed
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 WriteToFile();
             }
         });
+        // Sets up frame
+        setTitle("To Do List");
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setSize(300, 400);
+        setVisible(true);
     }
     private void printFile(){
         file = new File("ToDoList.txt");
